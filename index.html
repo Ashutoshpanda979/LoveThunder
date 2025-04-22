@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A brief description of your webpage">
-    <meta name="author" content="Your Name">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A brief description of your webpage" />
+    <meta name="author" content="Your Name" />
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-    <header>
-        <h1>Welcome to My Website</h1>
-    </header>
-    <main>
-        <p>This is the main content area.</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 Your Name. All rights reserved.</p>
+<body class="bg-gray-900 text-pink-300">
+    <div class="intro border-4 border-pink-600 flex flex-col justify-center items-center h-screen relative z-10">
+        <h1 class="neon-text text-5xl md:text-6xl lg:text-7xl text-pink-400 relative z-10">
+            A flame, never truly gone.
+        </h1>
+        <p class="mt-4 max-w-xl text-center text-pink-300 text-lg md:text-xl">
+            Ashutosh met Jasaswini under a sky that forgot how to rain. Since then, even silence sounded like her name.
+        </p>
+    </div>
+    <div class="our-story flex flex-col justify-center items-center text-center min-h-[60vh] p-8 relative z-10 text-pink-300">
+        <h1 class="text-4xl md:text-5xl mb-4">
+            <span>O</span><span>u</span><span>r</span> <span>S</span><span>t</span><span>o</span><span>r</span><span>y</span>
+        </h1>
+        <p>
+            <span class="reveal-stage">It all began with a random phone call at 11:30 PM on April 29th. Jasaswini answered, and for the next half hour, we spoke like old souls meeting again after lifetimes apart. She was still healing from her past, unsure and guarded, but I didn’t ask for her heart—I just listened, stayed, and slowly became her peace.</span>
+            <span class="reveal-stage"> Somewhere between laughter, late-night talks, and quiet pauses, I fell in love with that beautiful chaos she carried so gracefully. When I first told her how I felt, she said no—and it felt like the longest silence I’d ever heard. But just two days later, she said yes—and in that moment, everything in me knew it was real.</span>
+            <span class="reveal-stage"> For the next three years, we lived a love that was raw, loud, soft, and everything in between. We shared food, fights, dreams, and dozens of "us" moments that still echo in the quiet. But love isn’t always enough when life keeps testing your edges. Misunderstandings grew, priorities shifted, and slowly, without wanting to, we began to drift. In the end, we chose peace over pain—even if it meant letting go. Still, no matter where life takes me, she’ll always be the most beautiful chapter my heart ever got to write.</span>
+        </p>
+    </div>
+    <footer class="flex justify-center items-center flex-col mt-5 text-pink-400">
+        <p>&copy; 2023 <b>Ashutosh Panda</b> & <b>Jasaswini Pattnaik</b>. All rights reserved.</p>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,75 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const ourStory = document.querySelector('.our-story');
+    const spans = ourStory.querySelectorAll('h1 span');
+
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    function checkAnimation() {
+        if (isInViewport(ourStory)) {
+            spans.forEach(span => {
+                span.classList.add('animate');
+            });
+            // Remove event listener after animation triggered once
+            window.removeEventListener('scroll', checkAnimation);
+        }
+    }
+
+    window.addEventListener('scroll', checkAnimation);
+    // Initial check in case already in viewport
+    checkAnimation();
+
+    // Floating love emojis animation
+    const emojis = ['❤️', '💖', '💕', '💘', '💝', '💞', '💓', '❣️', '💗'];
+    const floatingContainer = document.createElement('div');
+    floatingContainer.id = 'floating-emojis';
+    document.body.appendChild(floatingContainer);
+
+    function createEmoji() {
+        const emoji = document.createElement('div');
+        emoji.classList.add('floating-emoji');
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+        emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        emoji.style.animationDelay = (Math.random() * 5) + 's';
+        floatingContainer.appendChild(emoji);
+
+        // Remove emoji after animation duration
+        setTimeout(() => {
+            floatingContainer.removeChild(emoji);
+        }, (parseFloat(emoji.style.animationDuration) + parseFloat(emoji.style.animationDelay)) * 1000);
+    }
+
+    // Create emojis at intervals
+    setInterval(createEmoji, 500);
+
+    // Mouse trailing hearts effect
+    const mouseTrailContainer = document.createElement('div');
+    mouseTrailContainer.id = 'mouse-trail';
+    document.body.appendChild(mouseTrailContainer);
+
+    function createTrailHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.classList.add('trail-heart');
+        heart.textContent = '❤️';
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        mouseTrailContainer.appendChild(heart);
+
+        setTimeout(() => {
+            mouseTrailContainer.removeChild(heart);
+        }, 1000);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        createTrailHeart(e.clientX, e.clientY);
+    });
+});
