@@ -60,19 +60,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function animateHeartsOnScroll() {
-        heartContainer.classList.add('animate-hearts');
+        gsap.to(heartContainer.children, {
+            opacity: 0.6,
+            scale: 1.1,
+            duration: 1,
+            ease: "power2.out",
+            stagger: 0.2,
+            force3D: true
+        });
         window.removeEventListener('scroll', animateHeartsOnScroll);
     }
 
     window.addEventListener('scroll', animateHeartsOnScroll);
 
-    // Mouse trailing hearts effect
+    // Mouse trailing hearts effect using GSAP with max limit and requestAnimationFrame throttling
     const mouseTrailContainer = document.createElement('div');
     mouseTrailContainer.id = 'mouse-trail';
     mouseTrailContainer.style.zIndex = '9999'; // Ensure it is on top
     document.body.appendChild(mouseTrailContainer);
 
     function createTrailHeart(x, y) {
+        if (mouseTrailContainer.children.length >= 20) {
+            return; // Limit max hearts on screen
+        }
         const heart = document.createElement('div');
         heart.classList.add('trail-heart');
         heart.textContent = '❤️';
@@ -80,20 +90,40 @@ document.addEventListener('DOMContentLoaded', function () {
         heart.style.top = y + 'px';
         mouseTrailContainer.appendChild(heart);
 
-        setTimeout(() => {
-            mouseTrailContainer.removeChild(heart);
-        }, 1000);
+        gsap.to(heart, {
+            y: -20,
+            opacity: 0,
+            duration: 0.7,
+            ease: "power1.out",
+            force3D: true,
+            onComplete: () => {
+                mouseTrailContainer.removeChild(heart);
+            }
+        });
     }
 
-    // Throttle mousemove event to limit heart creation frequency
     let lastTrailTime = 0;
-    const trailInterval = 50; // milliseconds
+    let scheduled = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function onMouseMove() {
+        const now = Date.now();
+        if (now - lastTrailTime > 50) {
+            createTrailHeart(lastX, lastY);
+            lastTrailTime = now;
+            scheduled = false;
+        } else {
+            scheduled = false;
+        }
+    }
 
     window.addEventListener('mousemove', (e) => {
-        const now = Date.now();
-        if (now - lastTrailTime > trailInterval) {
-            createTrailHeart(e.clientX, e.clientY);
-            lastTrailTime = now;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (!scheduled) {
+            scheduled = true;
+            requestAnimationFrame(onMouseMove);
         }
     });
 });
