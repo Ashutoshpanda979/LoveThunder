@@ -231,3 +231,44 @@ body {
         transform: translateY(-20px);
     }
 }
+
+/* Static hearts container */
+#static-hearts {
+    position: fixed;
+    top: 20%;
+    left: 10%;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0.3;
+}
+
+/* Static heart sizes */
+.static-heart {
+    color: #ff4081;
+    opacity: 0.3;
+    transition: opacity 1s ease, transform 1s ease;
+    user-select: none;
+}
+
+.static-heart.xxl {
+    font-size: 6rem;
+}
+
+.static-heart.large {
+    font-size: 4rem;
+}
+
+.static-heart.medium {
+    font-size: 2.5rem;
+}
+
+/* Animation triggered on scroll */
+#static-hearts.animate-hearts .static-heart {
+    opacity: 0.6;
+    transform: scale(1.1);
+}

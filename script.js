@@ -30,41 +30,34 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial check in case already in viewport
     checkAnimation();
 
-    // Floating love emojis animation
-    const emojis = ['❤️', '💖', '💕', '💘', '💝', '💞', '💓', '❣️', '💗'];
-    const floatingContainer = document.createElement('div');
-    floatingContainer.id = 'floating-emojis';
-    document.body.appendChild(floatingContainer);
+    // Remove floating love emojis animation and replace with 3 static hearts with scroll-triggered animation
+    const heartSizes = ['xxl', 'large', 'medium'];
+    const heartContainer = document.createElement('div');
+    heartContainer.id = 'static-hearts';
+    document.body.appendChild(heartContainer);
 
-    function createEmoji() {
-        // Limit max emojis to 10
-        if (floatingContainer.children.length >= 10) {
-            return;
-        }
-        const emoji = document.createElement('div');
-        emoji.classList.add('floating-emoji');
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.left = Math.random() * 100 + 'vw';
-        emoji.style.fontSize = (Math.random() * 1 + 1) + 'rem';
-        emoji.style.animationDuration = (Math.random() * 3 + 3) + 's'; // reduced duration 3-6s
-        emoji.style.animationDelay = (Math.random() * 3) + 's'; // reduced delay
-        floatingContainer.appendChild(emoji);
+    heartSizes.forEach(size => {
+        const heart = document.createElement('div');
+        heart.classList.add('static-heart', size);
+        heart.textContent = '❤️';
+        heartContainer.appendChild(heart);
+    });
 
-        // Remove emoji after animation duration
-        setTimeout(() => {
-            floatingContainer.removeChild(emoji);
-        }, (parseFloat(emoji.style.animationDuration) + parseFloat(emoji.style.animationDelay)) * 1000);
+    function animateHeartsOnScroll() {
+        heartContainer.classList.add('animate-hearts');
+        window.removeEventListener('scroll', animateHeartsOnScroll);
     }
 
-    // Create emojis at intervals (further reduced frequency for better performance)
-    setInterval(createEmoji, 4000);
+    window.addEventListener('scroll', animateHeartsOnScroll);
 
     // Mouse trailing hearts effect
     const mouseTrailContainer = document.createElement('div');
     mouseTrailContainer.id = 'mouse-trail';
+    mouseTrailContainer.style.zIndex = '9999'; // Ensure it is on top
     document.body.appendChild(mouseTrailContainer);
 
     function createTrailHeart(x, y) {
+        console.log('Creating heart at:', x, y);
         const heart = document.createElement('div');
         heart.classList.add('trail-heart');
         heart.textContent = '❤️';
@@ -82,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trailInterval = 50; // milliseconds
 
     window.addEventListener('mousemove', (e) => {
+        console.log('Mouse moved:', e.clientX, e.clientY);
         const now = Date.now();
         if (now - lastTrailTime > trailInterval) {
             createTrailHeart(e.clientX, e.clientY);
